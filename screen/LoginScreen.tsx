@@ -1,4 +1,4 @@
-import {Button} from "react-native";
+import {Button, Text} from "react-native";
 import {useEffect, useState} from "react";
 import {AuthenticationDetails, CognitoUser, CognitoUserAttribute} from "amazon-cognito-identity-js";
 import UserPool from "../security/UserPool";
@@ -8,7 +8,7 @@ import LabelAndInput from "../components/LabelAndInput";
 interface jwtTokenId {
     "aud": string,
     "auth_time": string,
-    "cognito:username" : string,
+    "cognito:username": string,
     "email": string,
     "email:verified": string,
     "event_id": string,
@@ -74,7 +74,7 @@ function LoginScreen() {
         )
     }
 
-    function onLogin () {
+    function onLogin() {
         const user = new CognitoUser({
             Username: email,
             Pool: UserPool
@@ -90,7 +90,7 @@ function LoginScreen() {
                 console.log("onSuccess: ", data);
                 setIsUserLogged(true);
                 const jwtToken = data.getIdToken().getJwtToken();
-                const jwtDecoded:jwtTokenId = jwtDecode(jwtToken);
+                const jwtDecoded: jwtTokenId = jwtDecode(jwtToken);
                 console.log(jwtDecoded)
                 console.log(jwtDecoded.name)
                 setLoggedUserUsername(jwtDecoded.name)
@@ -99,46 +99,72 @@ function LoginScreen() {
                 console.log("on Failure ", err);
             },
             newPasswordRequired: (data) => {
-                console.log("newPasswordRequired: ",  data);
+                console.log("newPasswordRequired: ", data);
             },
         })
     }
 
+    function logout() {
+        console.log("logging user out")
+        const user = UserPool.getCurrentUser();
+        console.log(user)
+        if (user) {
+            setIsUserLogged(false);
+            setLoggedUserUsername("");
+            user.signOut();
+        }
+
+    }
+
     return (
         <>
-            <LabelAndInput
-                label={"Username"}
-                textInputValue={username}
-                onChange={setUsername}
-            />
+            {!isUserLogged &&
+                (<>
+                    <LabelAndInput
+                        label={"Username"}
+                        textInputValue={username}
+                        onChange={setUsername}
+                    />
 
-            <LabelAndInput
-                label={"Email"}
-                textInputValue={email}
-                onChange={setEmail}
-            />
+                    <LabelAndInput
+                        label={"Email"}
+                        textInputValue={email}
+                        onChange={setEmail}
+                    />
 
-            <LabelAndInput
-                label={"Password"}
-                textInputValue={password}
-                onChange={setPassword}
-            />
+                    <LabelAndInput
+                        label={"Password"}
+                        textInputValue={password}
+                        onChange={setPassword}
+                        isPassword={true}
+                    />
 
-            <Button title={"Sing in"} onPress={onSubmit} />
+                    <Button title={"Sing in"} onPress={onSubmit}/>
 
-            <LabelAndInput
-                label={"Username"}
-                textInputValue={username}
-                onChange={setUsername}
-            />
+                    <LabelAndInput
+                        label={"Email"}
+                        textInputValue={email}
+                        onChange={setEmail}
+                    />
 
-            <LabelAndInput
-                label={"Email"}
-                textInputValue={email}
-                onChange={setEmail}
-            />
+                    <LabelAndInput
+                        label={"Password"}
+                        textInputValue={password}
+                        onChange={setPassword}
+                        isPassword={true}
+                    />
 
-            <Button title={"Log in"} onPress={onLogin} />
+                    <Button title={"Log in"} onPress={onLogin}/>
+                </>)
+            }
+
+            {isUserLogged &&
+                (<>
+                    <Text>Welcome {loggedUserUsername}</Text>
+                    <Button title={"Logout"} onPress={logout}/>
+                </>)
+            }
+
         </>
     );
 }
