@@ -14,7 +14,7 @@
   docker build -t photo-game-react-native-ts .
   ```
 ### Run with default context
-- Firstly it'll install npm modules than immediatelly runs npx expo start.
+- Firstly it'll install npm modules than immediately runs npx expo start.
 - You can append whatever cmd from alpine linux after container name e.g. **"sh"** to avoid default behavior
 - ```sh
   docker run\

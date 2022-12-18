@@ -1,8 +1,9 @@
-import {Button, Pressable, StyleSheet, Text, TextInput} from "react-native";
+import {Button} from "react-native";
 import {useEffect, useState} from "react";
 import {AuthenticationDetails, CognitoUser, CognitoUserAttribute} from "amazon-cognito-identity-js";
 import UserPool from "../security/UserPool";
 import jwtDecode from "jwt-decode";
+import LabelAndInput from "../components/LabelAndInput";
 
 interface jwtTokenId {
     "aud": string,
@@ -91,7 +92,7 @@ function LoginScreen() {
                 const jwtToken = data.getIdToken().getJwtToken();
                 const jwtDecoded:jwtTokenId = jwtDecode(jwtToken);
                 console.log(jwtDecoded)
-                console.log(jwtDecoded["cognito:username"])
+                console.log(jwtDecoded.name)
                 setLoggedUserUsername(jwtDecoded.name)
             },
             onFailure: (err) => {
@@ -105,37 +106,37 @@ function LoginScreen() {
 
     return (
         <>
-            <Text>username</Text>
-            <TextInput
-                style={styles.input}
-                value={username} onChangeText={(value) => setUsername(value)
-            }/>
-            
-            <Text>email</Text>
-            <TextInput 
-                style={styles.input} 
-                value={email} onChangeText={(value) => setEmail(value)
-            }/>
+            <LabelAndInput
+                label={"Username"}
+                textInputValue={username}
+                onChange={setUsername}
+            />
 
-            <Text>Password</Text>
-            <TextInput
-                style={styles.input}
-                value={password} onChangeText={(value) => setPassword(value)
-            }/>
-            
+            <LabelAndInput
+                label={"Email"}
+                textInputValue={email}
+                onChange={setEmail}
+            />
+
+            <LabelAndInput
+                label={"Password"}
+                textInputValue={password}
+                onChange={setPassword}
+            />
+
             <Button title={"Sing in"} onPress={onSubmit} />
 
-            <Text>email</Text>
-            <TextInput
-                style={styles.input}
-                value={email} onChangeText={(value) => setEmail(value)
-            }/>
+            <LabelAndInput
+                label={"Username"}
+                textInputValue={username}
+                onChange={setUsername}
+            />
 
-            <Text>Password</Text>
-            <TextInput
-                style={styles.input}
-                value={password} onChangeText={(value) => setPassword(value)
-            }/>
+            <LabelAndInput
+                label={"Email"}
+                textInputValue={email}
+                onChange={setEmail}
+            />
 
             <Button title={"Log in"} onPress={onLogin} />
         </>
@@ -143,18 +144,3 @@ function LoginScreen() {
 }
 
 export default LoginScreen;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    input: {
-        height: 40,
-        margin: 12,
-        borderWidth: 1,
-        padding: 10,
-    },
-});
