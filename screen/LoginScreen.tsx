@@ -1,9 +1,11 @@
 import {Button, Text} from "react-native";
 import {useEffect, useState} from "react";
-import {AuthenticationDetails, CognitoUser, CognitoUserAttribute} from "amazon-cognito-identity-js";
+import {AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserSession} from "amazon-cognito-identity-js";
 import UserPool from "../security/UserPool";
 import jwtDecode from "jwt-decode";
 import LabelAndInput from "../components/LabelAndInput";
+import axios from "axios";
+import {BACKEND_URL} from "../tools/constants";
 
 interface jwtTokenId {
     "aud": string,
@@ -27,22 +29,64 @@ function LoginScreen() {
     const [password, setPassword] = useState("Monitor11!");
     const [isUserLogged, setIsUserLogged] = useState(false);
     const [loggedUserUsername, setLoggedUserUsername] = useState("");
+    const [messageFromBackend, setMessageFromBackend] = useState("Press button"); // TODO: only for testing:
+    const [idToken, setIdToken] = useState("");
 
     useEffect(() => {
         checkIfUserIsLogged()
     }, [])
 
-    function checkIfUserIsLogged() {
+    async function checkIfUserIsLogged() {
         console.log("checking user")
-        const user = UserPool.getCurrentUser();
-        if (user != null) {
-            console.log(user.getUsername())
-            setIsUserLogged(true);
-            setLoggedUserUsername(user.getUsername())
-        } else {
-            setIsUserLogged(false);
-            setLoggedUserUsername("");
+        getSessionAndVerify().then(session => {
+            if (session) {
+                setIsUserLogged(true);
+                setLoggedUserUsername(session.getAccessToken().payload.username);
+                setIdToken(session.getIdToken().getJwtToken());
+                // setToken(ActionType.SET_ACCESS_TOKEN, {accessToken: session.getAccessToken().getJwtToken()});
+                // setToken(ActionType.SET_REFRESH_TOKEN, {refreshToken: session.getRefreshToken().getToken()});
+            } else {
+                console.log("user is not logged");
+                setIsUserLogged(false);
+                setLoggedUserUsername("");
+                setIdToken("")
+                // setToken(ActionType.SET_ACCESS_TOKEN, {accessToken: null})
+                // setToken(ActionType.SET_REFRESH_TOKEN, {refreshToken: null})
+            }
+        })
+    }
+
+    async function getSessionAndVerify(): Promise<CognitoUserSession | null> {
+        try {
+            const session = await getSession();
+            console.log(session);
+            if (session instanceof CognitoUserSession) {
+                return session;
+            } else {
+                return null;
+            }
+        } catch (err) {
+            return null;
         }
+
+    }
+
+    async function getSession() {
+        return await new Promise((resolve, reject) => {
+            const user = UserPool.getCurrentUser();
+
+            if (user) {
+                user.getSession((err: any, session: CognitoUserSession) => {
+                    if (err) {
+                        reject();
+                    } else {
+                        resolve(session);
+                    }
+                });
+            } else {
+                reject();
+            }
+        });
     }
 
     function onSubmit() {
@@ -87,12 +131,15 @@ function LoginScreen() {
 
         user.authenticateUser(authDetails, {
             onSuccess: (data) => {
+                debugger;
                 console.log("onSuccess: ", data);
                 setIsUserLogged(true);
+                setIdToken(data.getIdToken().getJwtToken());
                 const jwtToken = data.getIdToken().getJwtToken();
                 const jwtDecoded: jwtTokenId = jwtDecode(jwtToken);
                 console.log(jwtDecoded)
                 console.log(jwtDecoded.name)
+                console.log(jwtDecoded)
                 setLoggedUserUsername(jwtDecoded.name)
             },
             onFailure: (err) => {
@@ -114,6 +161,21 @@ function LoginScreen() {
             user.signOut();
         }
 
+    }
+
+    // TODO: remove when not needed
+    async function sendTestingRequestToBackend() {
+        const config = {
+            headers: { Authorization: `Bearer ${idToken}` }
+        };
+
+        console.log("idToken = " + idToken);
+        console.log("-------------------")
+        console.log("BACKEND_URL = " + BACKEND_URL.BY_IP);
+        const response= await axios.get(BACKEND_URL.BY_IP, config);
+        console.log(response);
+        console.log(response.data);
+        setMessageFromBackend(response.data);
     }
 
     return (
@@ -158,11 +220,16 @@ function LoginScreen() {
                 </>)
             }
 
-            {isUserLogged &&
-                (<>
+            {isUserLogged && (
+                <>
                     <Text>Welcome {loggedUserUsername}</Text>
                     <Button title={"Logout"} onPress={logout}/>
-                </>)
+
+                    <Button title={"Send testing request to backend"} onPress={sendTestingRequestToBackend}/>
+                    <Text>{messageFromBackend}</Text>
+                </>
+            )
+
             }
 
         </>

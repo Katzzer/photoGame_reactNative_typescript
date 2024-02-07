@@ -3,7 +3,9 @@
 ## How to run this app:
 - Type: `npm start` to start the app
 - Use Android or iPhone real device or emulation
-
+- Enable Developer mode in Android (how to do it you can find with Google)
+- Go to developer menu and enable debugging mode
+- [Allow port 19000 on Windows or Linux](https://stackoverflow.com/questions/43593042/network-response-time-out-error-create-react-native-app-expo)
 ---
 
 ## Run, develop using docker container:
