@@ -1,11 +1,13 @@
 import {Button, Text} from "react-native";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserSession} from "amazon-cognito-identity-js";
 import UserPool from "../security/UserPool";
 import jwtDecode from "jwt-decode";
 import LabelAndInput from "../components/LabelAndInput";
 import axios from "axios";
 import {BACKEND_URL} from "../tools/constants";
+import {ActionType} from "../model/token.model";
+import TokenContext from "../context/token-context";
 
 interface jwtTokenId {
     "aud": string,
@@ -23,7 +25,7 @@ interface jwtTokenId {
     "token_use": string,
 }
 
-function LoginScreen() {
+function Login()  {
     const [username, setUsername] = useState("katzz");
     const [email, setEmail] = useState("katzz@seznam.cz");
     const [password, setPassword] = useState("Monitor11!");
@@ -31,6 +33,7 @@ function LoginScreen() {
     const [loggedUserUsername, setLoggedUserUsername] = useState("");
     const [messageFromBackend, setMessageFromBackend] = useState("Press button"); // TODO: only for testing:
     const [idToken, setIdToken] = useState("");
+    const [state, dispatch] = useContext(TokenContext);
 
     useEffect(() => {
         checkIfUserIsLogged()
@@ -40,11 +43,13 @@ function LoginScreen() {
         console.log("checking user")
         getSessionAndVerify().then(session => {
             if (session) {
+                console.log("logging user !!!!!!!!!!!!!!!!!!!!")
                 setIsUserLogged(true);
                 setLoggedUserUsername(session.getAccessToken().payload.username);
                 setIdToken(session.getIdToken().getJwtToken());
                 // setToken(ActionType.SET_ACCESS_TOKEN, {accessToken: session.getAccessToken().getJwtToken()});
                 // setToken(ActionType.SET_REFRESH_TOKEN, {refreshToken: session.getRefreshToken().getToken()});
+                setIsUserLoggedContext(true);
             } else {
                 console.log("user is not logged");
                 setIsUserLogged(false);
@@ -52,6 +57,7 @@ function LoginScreen() {
                 setIdToken("")
                 // setToken(ActionType.SET_ACCESS_TOKEN, {accessToken: null})
                 // setToken(ActionType.SET_REFRESH_TOKEN, {refreshToken: null})
+                setIsUserLoggedContext(false);
             }
         })
     }
@@ -59,7 +65,7 @@ function LoginScreen() {
     async function getSessionAndVerify(): Promise<CognitoUserSession | null> {
         try {
             const session = await getSession();
-            console.log(session);
+            // console.log(session);
             if (session instanceof CognitoUserSession) {
                 return session;
             } else {
@@ -85,6 +91,17 @@ function LoginScreen() {
                 });
             } else {
                 reject();
+            }
+        });
+    }
+
+    function setIsUserLoggedContext(isUserLogged: boolean) {
+        console.log("isUserLogged = " + isUserLogged)
+        dispatch({
+            type: ActionType.SET_IS_USER_LOGGED,
+            payload: {
+                ...state,
+                isUserLogged: isUserLogged
             }
         });
     }
@@ -137,13 +154,15 @@ function LoginScreen() {
                 setIdToken(data.getIdToken().getJwtToken());
                 const jwtToken = data.getIdToken().getJwtToken();
                 const jwtDecoded: jwtTokenId = jwtDecode(jwtToken);
-                console.log(jwtDecoded)
-                console.log(jwtDecoded.name)
-                console.log(jwtDecoded)
-                setLoggedUserUsername(jwtDecoded.name)
+                console.log(jwtDecoded);
+                console.log(jwtDecoded.name);
+                console.log(jwtDecoded);
+                setLoggedUserUsername(jwtDecoded.name);
+                setIsUserLoggedContext(true);
             },
             onFailure: (err) => {
                 console.log("on Failure ", err);
+                setIsUserLoggedContext(false);
             },
             newPasswordRequired: (data) => {
                 console.log("newPasswordRequired: ", data);
@@ -157,6 +176,7 @@ function LoginScreen() {
         console.log(user)
         if (user) {
             setIsUserLogged(false);
+            setIsUserLoggedContext(false);
             setLoggedUserUsername("");
             user.signOut();
         }
@@ -232,8 +252,10 @@ function LoginScreen() {
 
             }
 
+            <Text>is user Logged: {String(state.isUserLogged)}</Text>
+
         </>
     );
 }
 
-export default LoginScreen;
+export default Login;
