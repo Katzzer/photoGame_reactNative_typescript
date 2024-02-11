@@ -148,7 +148,6 @@ function Login()  {
 
         user.authenticateUser(authDetails, {
             onSuccess: (data) => {
-                debugger;
                 console.log("onSuccess: ", data);
                 setIsUserLogged(true);
                 setIdToken(data.getIdToken().getJwtToken());
