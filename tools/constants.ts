@@ -4,12 +4,14 @@ export enum BACKEND_URL {
     BY_IP_AT_NOVA_CEREKEV = "http://192.168.0.107:8080/api/v1/data"
 }
 
-export enum PAGE {
+export enum SCREEN {
     LOGIN = "Login",
-    ORDER_DETAIL = "OrderDetail"
+    LIST_OF_PHOTOS = "ListOfPhotos",
+    MENU = "Menu"
 }
 
 export enum TITLE {
     LOGIN_SCREEN = "Login screen",
-    ORDER_DETAIL = "Order detail"
+    LIST_OF_PHOTOS = "List Of Photos",
+    MENU = "Menu"
 }

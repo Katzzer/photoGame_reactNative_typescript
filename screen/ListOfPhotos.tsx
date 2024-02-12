@@ -2,7 +2,7 @@ import {Text} from "react-native";
 import React, {useContext} from "react";
 import TokenContext from "../context/token-context";
 
-function OrderDetail() {
+function ListOfPhotos() {
     const [state, _] = useContext(TokenContext);
     console.log(state);
 
@@ -15,4 +15,4 @@ function OrderDetail() {
     );
 }
 
-export default OrderDetail;
+export default ListOfPhotos;

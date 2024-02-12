@@ -1,11 +1,12 @@
 import {NavigationContainer} from "@react-navigation/native";
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Pressable, Text } from 'react-native';
-import {createNativeStackNavigator} from "react-native-screens/native-stack";
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from "./screen/Login";
+import Menu from "./screen/Menu";
 import Colors from "./constants/colors";
-import OrderDetail from "./screen/OrderDetail";
-import {PAGE, TITLE} from "./tools/constants";
+import ListOfPhotos from "./screen/ListOfPhotos";
+import {SCREEN, TITLE} from "./tools/constants";
 import TokenContext from "./context/token-context";
 import {useReducer} from "react";
 import {tokenReducer} from "./reducer/tokenReducer";
@@ -17,12 +18,12 @@ export default function App() {
 
     const [state, dispatch] = useReducer(tokenReducer, initialState);
 
-    function handleRedirectToOrderDetail(navigation: any) {
-        navigation.navigate(PAGE.ORDER_DETAIL as never, {} as never);
+    function handleRedirectToMenu(navigation: any) {
+        navigation.navigate(SCREEN.MENU as never, {} as never);
     }
 
     function handleRedirectLoginPage(navigation: any) {
-        navigation.navigate(PAGE.LOGIN as never, {} as never);
+        navigation.navigate(SCREEN.LOGIN as never, {} as never);
     }
 
     function setToken(type: ActionType, tokens: Partial<State>) {
@@ -60,47 +61,71 @@ export default function App() {
       <TokenContext.Provider value={[state, dispatch]}>
         <StatusBar style={"light"}/>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={PAGE.LOGIN}>
-            <Stack.Screen
-                name={PAGE.LOGIN}
-                component={Login}
-                options={({navigation}) => ({
-                  title: TITLE.LOGIN_SCREEN,
-                  headerTintColor: Colors.darkWhite,
-                  headerStyle: {
-                    backgroundColor: Colors.darkGrey,
-                  },
-                    headerHideBackButton: true,
-                    headerRight: ({tintColor}) =>
-                        <>
-                            <View style={styles.price_container}>
-                                <Pressable onPress={() => handleRedirectToOrderDetail(navigation)}>
-                                    <Text style={styles.price_text}>{"120"} Kč</Text>
-                                </Pressable>
-                            </View>
-                        </>
-                })}
-            />
-            <Stack.Screen
-                name={PAGE.ORDER_DETAIL}
-                component={OrderDetail}
-                options={({navigation}) => ({
-                  title: TITLE.ORDER_DETAIL,
-                  headerTintColor: Colors.darkWhite,
-                  headerStyle: {
-                    backgroundColor: Colors.darkGrey,
-                  },
-                    headerHideBackButton: true,
-                    headerRight: ({tintColor}) =>
-                        <>
-                            <View style={styles.price_container}>
-                                <Pressable onPress={() => handleRedirectLoginPage(navigation)}>
-                                    <Text style={styles.price_text}>Go back</Text>
-                                </Pressable>
-                            </View>
-                        </>
-                })}
-            />
+          <Stack.Navigator initialRouteName={SCREEN.LOGIN}>
+
+              <Stack.Screen
+                  name={SCREEN.LOGIN}
+                  component={Login}
+                  options={({navigation}) => ({
+                      title: TITLE.LOGIN_SCREEN,
+                      headerTintColor: Colors.darkWhite,
+                      headerStyle: {
+                          backgroundColor: Colors.darkGrey,
+                      },
+                      headerHideBackButton: true,
+                      headerRight: ({tintColor}) =>
+                          <>
+                              <View style={styles.menu_container}>
+                                  <Pressable onPress={() => handleRedirectToMenu(navigation)}>
+                                      <Text style={styles.menu_text}>Menu</Text>
+                                  </Pressable>
+                              </View>
+                          </>
+                  })}
+              />
+
+              <Stack.Screen
+                  name={SCREEN.LIST_OF_PHOTOS}
+                  component={ListOfPhotos}
+                  options={({navigation}) => ({
+                      title: TITLE.LIST_OF_PHOTOS,
+                      headerTintColor: Colors.darkWhite,
+                      headerStyle: {
+                          backgroundColor: Colors.darkGrey,
+                      },
+                      headerHideBackButton: true,
+                      headerRight: ({tintColor}) =>
+                          <>
+                              <View style={styles.menu_container}>
+                                  <Pressable onPress={() => handleRedirectToMenu(navigation)}>
+                                      <Text style={styles.menu_text}>Menu</Text>
+                                  </Pressable>
+                              </View>
+                          </>
+                  })}
+              />
+
+              <Stack.Screen
+                  name={SCREEN.MENU}
+                  component={Menu}
+                  options={({navigation}) => ({
+                      title: TITLE.MENU,
+                      headerTintColor: Colors.darkWhite,
+                      headerStyle: {
+                          backgroundColor: Colors.darkGrey,
+                      },
+                      headerHideBackButton: true,
+                      headerRight: ({tintColor}) =>
+                          <>
+                              <View style={styles.menu_container}>
+                                  <Pressable onPress={() => handleRedirectToMenu(navigation)}>
+                                      <Text style={styles.menu_text}>Menu</Text>
+                                  </Pressable>
+                              </View>
+                          </>
+                  })}
+              />
+
           </Stack.Navigator>
         </NavigationContainer>
       </TokenContext.Provider>
@@ -115,14 +140,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  price_container: {
+  menu_container: {
     backgroundColor: "#6200ee",
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: 8,
     minWidth: 100,
   },
-  price_text: {
+  menu_text: {
     color: Colors.darkWhite,
     textAlign: "center",
     fontWeight: "bold",
