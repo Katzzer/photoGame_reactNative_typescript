@@ -6,7 +6,7 @@ import jwtDecode from "jwt-decode";
 import LabelAndInput from "../components/LabelAndInput";
 import axios from "axios";
 import {BACKEND_URL} from "../tools/constants";
-import {ActionType} from "../model/token.model";
+import {ActionType, State} from "../model/token.model";
 import TokenContext from "../context/token-context";
 
 interface jwtTokenId {
@@ -39,6 +39,17 @@ function Login()  {
         checkIfUserIsLogged()
     }, [])
 
+    function setToken(type: ActionType, tokens: Partial<State>) {
+        // Merge with the current state so only provided tokens are changed
+        dispatch({
+            type: type,
+            payload: {
+                ...state,
+                ...tokens
+            }
+        });
+    }
+
     async function checkIfUserIsLogged() {
         console.log("checking user")
         getSessionAndVerify().then(session => {
@@ -49,6 +60,9 @@ function Login()  {
                 setIdToken(session.getIdToken().getJwtToken());
                 // setToken(ActionType.SET_ACCESS_TOKEN, {accessToken: session.getAccessToken().getJwtToken()});
                 // setToken(ActionType.SET_REFRESH_TOKEN, {refreshToken: session.getRefreshToken().getToken()});
+                setToken(ActionType.SET_ID_TOKEN, {idToken: session.getIdToken().getJwtToken()});
+                setToken(ActionType.SET_ACCESS_TOKEN, {accessToken: session.getAccessToken().getJwtToken()});
+                setToken(ActionType.SET_REFRESH_TOKEN, {refreshToken: session.getRefreshToken().getToken()});
                 setIsUserLoggedContext(true);
             } else {
                 console.log("user is not logged");
@@ -58,6 +72,9 @@ function Login()  {
                 // setToken(ActionType.SET_ACCESS_TOKEN, {accessToken: null})
                 // setToken(ActionType.SET_REFRESH_TOKEN, {refreshToken: null})
                 setIsUserLoggedContext(false);
+                setToken(ActionType.SET_ID_TOKEN, {idToken: null})
+                setToken(ActionType.SET_ACCESS_TOKEN, {accessToken: null})
+                setToken(ActionType.SET_REFRESH_TOKEN, {refreshToken: null})
             }
         })
     }
@@ -158,6 +175,9 @@ function Login()  {
                 console.log(jwtDecoded);
                 setLoggedUserUsername(jwtDecoded.name);
                 setIsUserLoggedContext(true);
+                setToken(ActionType.SET_ID_TOKEN, {idToken: data.getIdToken().getJwtToken()});
+                setToken(ActionType.SET_ACCESS_TOKEN, {accessToken: data.getAccessToken().getJwtToken()});
+                setToken(ActionType.SET_REFRESH_TOKEN, {refreshToken: data.getRefreshToken().getToken()});
             },
             onFailure: (err) => {
                 console.log("on Failure ", err);
