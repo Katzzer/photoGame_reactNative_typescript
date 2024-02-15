@@ -19,3 +19,13 @@ export enum TITLE {
     APP_WITH_MODAL = "App With Modal",
     CAPTURE_PHOTO = "Capture photo"
 }
+
+export interface RootStackParamList {
+    [key: string]: undefined;
+    // Define parameters for each screen, ensuring appropriate types
+    [SCREEN.LOGIN]: undefined; // No expected parameters for Login screen
+    [SCREEN.LIST_OF_PHOTOS]: undefined// Object for ListOfPhotos parameters
+    [SCREEN.MENU]: undefined; // No expected parameters for Menu screen
+    [SCREEN.APP_WITH_MODAL]: undefined// Object for AppWithModal parameters
+    [SCREEN.CAPTURE_PHOTO]: undefined; // No expected parameters for CapturePhoto screen
+}

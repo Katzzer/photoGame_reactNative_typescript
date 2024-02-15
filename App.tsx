@@ -1,6 +1,6 @@
 import {NavigationContainer} from "@react-navigation/native";
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, Pressable, Text } from 'react-native';
+import {StatusBar} from 'expo-status-bar';
+import {StyleSheet} from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from "./screen/Login";
 import Menu from "./screen/Menu";
@@ -13,51 +13,13 @@ import {tokenReducer} from "./reducer/tokenReducer";
 import {ActionType, initialState, State} from "./model/token.model";
 import AppModal from "./screen/AppModal";
 import CapturePhoto from "./screen/CapturePhoto";
+import MenuButton from "./screen/components/MenuButton";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 
     const [state, dispatch] = useReducer(tokenReducer, initialState);
-
-    function handleRedirectToMenu(navigation: any) {
-        navigation.navigate(SCREEN.MENU as never, {} as never);
-    }
-
-    function handleRedirectLoginPage(navigation: any) {
-        navigation.navigate(SCREEN.LOGIN as never, {} as never);
-    }
-
-    function setToken(type: ActionType, tokens: Partial<State>) {
-        // Merge with the current state so only provided tokens are changed
-        dispatch({
-            type: type,
-            payload: {
-                ...state,
-                ...tokens
-            }
-        });
-    }
-
-    function setLoggedUserUsername(loggedUserUsername: string | null) {
-        dispatch({
-            type: ActionType.SET_USER_USERNAME,
-            payload: {
-                ...state,
-                loggedUserUsername: loggedUserUsername
-            }
-        });
-    }
-
-    function setIsUserLogged(isUserLogged: boolean) {
-        dispatch({
-            type: ActionType.SET_IS_USER_LOGGED,
-            payload: {
-                ...state,
-                isUserLogged: isUserLogged
-            }
-        });
-    }
 
   return (
       <TokenContext.Provider value={[state, dispatch]}>
@@ -76,13 +38,7 @@ export default function App() {
                       },
                       headerHideBackButton: true,
                       headerRight: ({tintColor}) =>
-                          <>
-                              <View style={styles.menu_container}>
-                                  <Pressable onPress={() => handleRedirectToMenu(navigation)}>
-                                      <Text style={styles.menu_text}>Menu</Text>
-                                  </Pressable>
-                              </View>
-                          </>
+                          <MenuButton navigation={navigation}/>
                   })}
               />
 
@@ -97,13 +53,7 @@ export default function App() {
                       },
                       headerHideBackButton: true,
                       headerRight: ({tintColor}) =>
-                          <>
-                              <View style={styles.menu_container}>
-                                  <Pressable onPress={() => handleRedirectToMenu(navigation)}>
-                                      <Text style={styles.menu_text}>Menu</Text>
-                                  </Pressable>
-                              </View>
-                          </>
+                          <MenuButton navigation={navigation}/>
                   })}
               />
 
@@ -118,13 +68,7 @@ export default function App() {
                       },
                       headerHideBackButton: true,
                       headerRight: ({tintColor}) =>
-                          <>
-                              <View style={styles.menu_container}>
-                                  <Pressable onPress={() => handleRedirectToMenu(navigation)}>
-                                      <Text style={styles.menu_text}>Menu</Text>
-                                  </Pressable>
-                              </View>
-                          </>
+                          <MenuButton navigation={navigation}/>
                   })}
               />
 
@@ -140,13 +84,7 @@ export default function App() {
                       },
                       headerHideBackButton: true,
                       headerRight: ({tintColor}) =>
-                          <>
-                              <View style={styles.menu_container}>
-                                  <Pressable onPress={() => handleRedirectToMenu(navigation)}>
-                                      <Text style={styles.menu_text}>Menu</Text>
-                                  </Pressable>
-                              </View>
-                          </>
+                          <MenuButton navigation={navigation}/>
                   })}
               />
 
@@ -161,13 +99,7 @@ export default function App() {
                       },
                       headerHideBackButton: true,
                       headerRight: ({tintColor}) =>
-                          <>
-                              <View style={styles.menu_container}>
-                                  <Pressable onPress={() => handleRedirectToMenu(navigation)}>
-                                      <Text style={styles.menu_text}>Menu</Text>
-                                  </Pressable>
-                              </View>
-                          </>
+                          <MenuButton navigation={navigation}/>
                   })}
               />
 

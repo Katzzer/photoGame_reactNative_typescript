@@ -1,10 +1,10 @@
-import {ScrollView, Text, View, Image, StyleSheet, Pressable, Button} from "react-native";
+import {ScrollView, Text, Image, StyleSheet, Pressable} from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import TokenContext from "../context/token-context";
 import {BACKEND_URL} from "../tools/constants";
 import {Photo} from "../constants/types";
 import axios, {AxiosRequestConfig} from "axios";
-const base64 = require('base-64');
+import base64 from 'base-64';
 
 function ListOfPhotos() {
     const [state, _] = useContext(TokenContext);
