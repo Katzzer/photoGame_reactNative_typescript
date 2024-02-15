@@ -11,6 +11,8 @@ import TokenContext from "./context/token-context";
 import {useReducer} from "react";
 import {tokenReducer} from "./reducer/tokenReducer";
 import {ActionType, initialState, State} from "./model/token.model";
+import AppModal from "./screen/AppModal";
+import CapturePhoto from "./screen/CapturePhoto";
 
 const Stack = createNativeStackNavigator();
 
@@ -110,6 +112,49 @@ export default function App() {
                   component={Menu}
                   options={({navigation}) => ({
                       title: TITLE.MENU,
+                      headerTintColor: Colors.darkWhite,
+                      headerStyle: {
+                          backgroundColor: Colors.darkGrey,
+                      },
+                      headerHideBackButton: true,
+                      headerRight: ({tintColor}) =>
+                          <>
+                              <View style={styles.menu_container}>
+                                  <Pressable onPress={() => handleRedirectToMenu(navigation)}>
+                                      <Text style={styles.menu_text}>Menu</Text>
+                                  </Pressable>
+                              </View>
+                          </>
+                  })}
+              />
+
+              {/* FOR TESTING */}
+              <Stack.Screen
+                  name={SCREEN.APP_WITH_MODAL}
+                  component={AppModal}
+                  options={({navigation}) => ({
+                      title: TITLE.APP_WITH_MODAL,
+                      headerTintColor: Colors.darkWhite,
+                      headerStyle: {
+                          backgroundColor: Colors.darkGrey,
+                      },
+                      headerHideBackButton: true,
+                      headerRight: ({tintColor}) =>
+                          <>
+                              <View style={styles.menu_container}>
+                                  <Pressable onPress={() => handleRedirectToMenu(navigation)}>
+                                      <Text style={styles.menu_text}>Menu</Text>
+                                  </Pressable>
+                              </View>
+                          </>
+                  })}
+              />
+
+              <Stack.Screen
+                  name={SCREEN.CAPTURE_PHOTO}
+                  component={CapturePhoto}
+                  options={({navigation}) => ({
+                      title: TITLE.CAPTURE_PHOTO,
                       headerTintColor: Colors.darkWhite,
                       headerStyle: {
                           backgroundColor: Colors.darkGrey,

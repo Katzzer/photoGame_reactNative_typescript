@@ -14,6 +14,14 @@ function Menu() {
         navigation.navigate(SCREEN.LIST_OF_PHOTOS as never);
     }
 
+    function handleRedirectToAppWithModalScreen() {
+        navigation.navigate(SCREEN.APP_WITH_MODAL as never);
+    }
+
+    function handleRedirectToCameraScreen() {
+        navigation.navigate(SCREEN.CAPTURE_PHOTO as never);
+    }
+
     return (
         <>
             <View style={styles.container}>
@@ -23,6 +31,14 @@ function Menu() {
 
                 <Pressable onPress={handleRedirectToOrderScreen} style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Go to List Of Photos</Text>
+                </Pressable>
+
+                <Pressable onPress={handleRedirectToAppWithModalScreen} style={styles.buttonContainer}>
+                    <Text style={styles.buttonText}>Go toApp With Modal</Text>
+                </Pressable>
+
+                <Pressable onPress={handleRedirectToCameraScreen} style={styles.buttonContainer}>
+                    <Text style={styles.buttonText}>Go Camera</Text>
                 </Pressable>
             </View>
 

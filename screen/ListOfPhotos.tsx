@@ -1,4 +1,4 @@
-import {ScrollView, Text, View, Image} from "react-native";
+import {ScrollView, Text, View, Image, StyleSheet} from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import TokenContext from "../context/token-context";
 import {BACKEND_URL} from "../tools/constants";
@@ -43,9 +43,8 @@ function ListOfPhotos() {
         if (response.data) {
 
             // Use base64.encode() to convert array buffer to base64
-            const base64Image = base64.encode(
-                new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), '')
-            );
+            const base64Image = base64.encode(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+            console.log(base64Image.length);
 
             photo.image = `data:image/jpeg;base64,${base64Image}`;
 
@@ -102,3 +101,12 @@ function ListOfPhotos() {
 }
 
 export default ListOfPhotos;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#592d2d',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});

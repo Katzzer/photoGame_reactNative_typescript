@@ -7,11 +7,15 @@ export enum BACKEND_URL {
 export enum SCREEN {
     LOGIN = "Login",
     LIST_OF_PHOTOS = "ListOfPhotos",
-    MENU = "Menu"
+    MENU = "Menu",
+    APP_WITH_MODAL = "AppWithModal",
+    CAPTURE_PHOTO = "CapturePhoto"
 }
 
 export enum TITLE {
     LOGIN_SCREEN = "Login screen",
     LIST_OF_PHOTOS = "List Of Photos",
-    MENU = "Menu"
+    MENU = "Menu",
+    APP_WITH_MODAL = "App With Modal",
+    CAPTURE_PHOTO = "Capture photo"
 }

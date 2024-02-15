@@ -3,7 +3,7 @@ import {useContext, useEffect, useState} from "react";
 import {AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserSession} from "amazon-cognito-identity-js";
 import UserPool from "../security/UserPool";
 import jwtDecode from "jwt-decode";
-import LabelAndInput from "../components/LabelAndInput";
+import LabelAndInput from "./components/LabelAndInput";
 import axios from "axios";
 import {BACKEND_URL} from "../tools/constants";
 import {ActionType, State} from "../model/token.model";
