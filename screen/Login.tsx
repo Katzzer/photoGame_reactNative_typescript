@@ -5,9 +5,10 @@ import UserPool from "../security/UserPool";
 import jwtDecode from "jwt-decode";
 import LabelAndInput from "./components/LabelAndInput";
 import axios from "axios";
-import {BACKEND_URL} from "../tools/constants";
+import {BACKEND_URL, SCREEN} from "../tools/constants";
 import {ActionType, State} from "../model/token.model";
 import TokenContext from "../context/token-context";
+import {useNavigation} from "@react-navigation/native";
 
 interface jwtTokenId {
     "aud": string,
@@ -34,6 +35,7 @@ function Login()  {
     const [messageFromBackend, setMessageFromBackend] = useState("Press button"); // TODO: only for testing:
     const [idToken, setIdToken] = useState("");
     const [state, dispatch] = useContext(TokenContext);
+    const navigation = useNavigation();
 
     useEffect(() => {
         checkIfUserIsLogged()
@@ -165,19 +167,21 @@ function Login()  {
 
         user.authenticateUser(authDetails, {
             onSuccess: (data) => {
-                console.log("onSuccess: ", data);
+                // console.log("onSuccess: ", data);
                 setIsUserLogged(true);
                 setIdToken(data.getIdToken().getJwtToken());
                 const jwtToken = data.getIdToken().getJwtToken();
                 const jwtDecoded: jwtTokenId = jwtDecode(jwtToken);
-                console.log(jwtDecoded);
-                console.log(jwtDecoded.name);
-                console.log(jwtDecoded);
+                // console.log(jwtDecoded);
+                // console.log(jwtDecoded.name);
+                // console.log(jwtDecoded);
                 setLoggedUserUsername(jwtDecoded.name);
                 setIsUserLoggedContext(true);
                 setToken(ActionType.SET_ID_TOKEN, {idToken: data.getIdToken().getJwtToken()});
                 setToken(ActionType.SET_ACCESS_TOKEN, {accessToken: data.getAccessToken().getJwtToken()});
                 setToken(ActionType.SET_REFRESH_TOKEN, {refreshToken: data.getRefreshToken().getToken()});
+                console.log("aadasdsadasdas")
+                navigation.navigate(SCREEN.CAPTURE_PHOTO as never);
             },
             onFailure: (err) => {
                 console.log("on Failure ", err);

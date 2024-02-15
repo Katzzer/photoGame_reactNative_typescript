@@ -1,31 +1,50 @@
-import React, {useState} from 'react';
-import { Button, Image, View, ImageSourcePropType } from 'react-native';
-import { launchCamera, CameraOptions, ImagePickerResponse } from 'react-native-image-picker';
+import React, {useEffect, useRef, useState} from 'react';
+import {Text, View, TouchableOpacity} from 'react-native';
+import {Camera, CameraType} from "expo-camera";
 
 function CapturePhoto() {
-    const [photo, setPhoto] = useState<ImageSourcePropType | null>(null);
+    const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+    const cameraRef = useRef<Camera | null>(null);
 
-    const capturePhoto = () => {
-        const options: CameraOptions = {
-            mediaType: 'photo',
-            maxWidth: 300,
-            maxHeight: 300,
-        };
+    useEffect(() => {
+        (async () => {
+            const { status } = await Camera.requestCameraPermissionsAsync();
+            setHasPermission(status === 'granted');
+        })();
+    }, []);
 
-        launchCamera(options, (response: ImagePickerResponse) => {
-            if (response.assets && response.assets.length > 0) {
-                const uri = response.assets[0].uri;
-                if (uri) {
-                    setPhoto({ uri });
-                }
-            }
-        });
-    };
+    if (hasPermission === null) {
+        return <View />;
+    }
+    if (!hasPermission) {
+        return <Text>No access to camera</Text>;
+    }
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Button title="Capture Photo" onPress={capturePhoto} />
-            {photo && <Image source={photo} style={{ width: 300, height: 300 }} />}
+        <View style={{ flex: 1 }}>
+            <Camera style={{ flex: 1 }} type={Camera.Constants.Type as CameraType} ref={cameraRef}>
+                <View
+                    style={{
+                        flex: 1,
+                        backgroundColor: 'transparent',
+                        flexDirection: 'row',
+                    }}>
+                    <TouchableOpacity
+                        style={{
+                            flex: 0.1,
+                            alignSelf: 'flex-end',
+                            alignItems: 'center',
+                        }}
+                        onPress={async () => {
+                            if (cameraRef.current) {
+                                let photo = await cameraRef.current.takePictureAsync();
+                                console.log('photo', photo);
+                            }
+                        }}>
+                        <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Capture </Text>
+                    </TouchableOpacity>
+                </View>
+            </Camera>
         </View>
     );
 }
