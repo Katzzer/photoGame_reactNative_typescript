@@ -180,8 +180,7 @@ function Login()  {
                 setToken(ActionType.SET_ID_TOKEN, {idToken: data.getIdToken().getJwtToken()});
                 setToken(ActionType.SET_ACCESS_TOKEN, {accessToken: data.getAccessToken().getJwtToken()});
                 setToken(ActionType.SET_REFRESH_TOKEN, {refreshToken: data.getRefreshToken().getToken()});
-                console.log("aadasdsadasdas")
-                navigation.navigate(SCREEN.CAPTURE_PHOTO as never);
+                navigation.navigate(SCREEN.LIST_OF_PHOTOS as never);
             },
             onFailure: (err) => {
                 console.log("on Failure ", err);

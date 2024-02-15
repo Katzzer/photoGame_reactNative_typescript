@@ -1,4 +1,4 @@
-import {ScrollView, Text, View, Image, StyleSheet} from "react-native";
+import {ScrollView, Text, View, Image, StyleSheet, Pressable, Button} from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import TokenContext from "../context/token-context";
 import {BACKEND_URL} from "../tools/constants";
@@ -36,16 +36,11 @@ function ListOfPhotos() {
             },
         };
 
-        console.log("Backend url:")
-        console.log(`${BACKEND_URL.BY_IP}/photo/thumbnail/${photo.id}`)
-
         const response = await axios.get(`${BACKEND_URL.BY_IP}/photo/thumbnail/${photo.id}`, config);
         if (response.data) {
 
             // Use base64.encode() to convert array buffer to base64
             const base64Image = base64.encode(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''));
-            console.log(base64Image.length);
-
             photo.image = `data:image/jpeg;base64,${base64Image}`;
 
             setListOfPhotosWithImage(prevState => {
@@ -78,23 +73,21 @@ function ListOfPhotos() {
         })
     }
 
+    function showPhotoId(photoId: number | undefined) {
+        console.log("photoId:" + photoId)
+    }
+
     return (
         <ScrollView contentContainerStyle={{padding: 10}}>
-            <Text>Welcome at OrderDetail</Text>
             <Text>is user logged: {String(state.isUserLogged)}</Text>
-            <Text>{"state.idToken"}</Text>
-            {listOfPhotos && listOfPhotos.map(photo =>
-                <Text>{photo.id}</Text>
-            )}
-
 
             {listOfPhotosWithImage.map((photo) => (
-                <View key={photo.id} style={{ marginBottom: 10 }}>
+                <Pressable key={photo.id} onPress={() => showPhotoId(photo.id)} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
                     <Image
-                        style={{ width: '100%', height: 200 }}
+                        style={{ width: '100%', height: 200, marginBottom: 10 }}
                         source={{ uri: photo.image }}
                     />
-                </View>
+                </Pressable>
             ))}
         </ScrollView>
     );
@@ -108,5 +101,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#592d2d',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    menu_text: {
+        color: "black",
+        textAlign: "center",
+        fontWeight: "bold",
+        fontSize: 40,
     },
 });
