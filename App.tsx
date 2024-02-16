@@ -10,8 +10,7 @@ import {SCREEN, TITLE} from "./tools/constants";
 import TokenContext from "./context/token-context";
 import {useReducer} from "react";
 import {tokenReducer} from "./reducer/tokenReducer";
-import {ActionType, initialState, State} from "./model/token.model";
-import AppModal from "./screen/AppModal";
+import {initialState} from "./model/token.model";
 import CapturePhoto from "./screen/CapturePhoto";
 import MenuButton from "./screen/components/MenuButton";
 
@@ -62,22 +61,6 @@ export default function App() {
                   component={Menu}
                   options={({navigation}) => ({
                       title: TITLE.MENU,
-                      headerTintColor: Colors.darkWhite,
-                      headerStyle: {
-                          backgroundColor: Colors.darkGrey,
-                      },
-                      headerHideBackButton: true,
-                      headerRight: ({tintColor}) =>
-                          <MenuButton navigation={navigation}/>
-                  })}
-              />
-
-              {/* FOR TESTING */}
-              <Stack.Screen
-                  name={SCREEN.APP_WITH_MODAL}
-                  component={AppModal}
-                  options={({navigation}) => ({
-                      title: TITLE.APP_WITH_MODAL,
                       headerTintColor: Colors.darkWhite,
                       headerStyle: {
                           backgroundColor: Colors.darkGrey,

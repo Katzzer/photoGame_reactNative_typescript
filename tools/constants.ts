@@ -8,7 +8,6 @@ export enum SCREEN {
     LOGIN = "Login",
     LIST_OF_PHOTOS = "ListOfPhotos",
     MENU = "Menu",
-    APP_WITH_MODAL = "AppWithModal",
     CAPTURE_PHOTO = "CapturePhoto"
 }
 
@@ -16,7 +15,6 @@ export enum TITLE {
     LOGIN_SCREEN = "Login screen",
     LIST_OF_PHOTOS = "List Of Photos",
     MENU = "Menu",
-    APP_WITH_MODAL = "App With Modal",
     CAPTURE_PHOTO = "Capture photo"
 }
 
@@ -26,6 +24,5 @@ export interface RootStackParamList {
     [SCREEN.LOGIN]: undefined; // No expected parameters for Login screen
     [SCREEN.LIST_OF_PHOTOS]: undefined// Object for ListOfPhotos parameters
     [SCREEN.MENU]: undefined; // No expected parameters for Menu screen
-    [SCREEN.APP_WITH_MODAL]: undefined// Object for AppWithModal parameters
     [SCREEN.CAPTURE_PHOTO]: undefined; // No expected parameters for CapturePhoto screen
 }
