@@ -1,6 +1,5 @@
-import {Pressable, StyleSheet, Text, View} from "react-native";
-import {SCREEN} from "../tools/constants";
-import Colors from "../constants/colors";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {colors,  SCREEN} from "../constants/constants";
 import {useNavigation} from "@react-navigation/native";
 
 function Menu() {
@@ -14,10 +13,6 @@ function Menu() {
         navigation.navigate(SCREEN.LIST_OF_PHOTOS as never);
     }
 
-    function handleRedirectToAppWithModalScreen() {
-        navigation.navigate(SCREEN.APP_WITH_MODAL as never);
-    }
-
     function handleRedirectToCameraScreen() {
         navigation.navigate(SCREEN.CAPTURE_PHOTO as never);
     }
@@ -25,21 +20,17 @@ function Menu() {
     return (
         <>
             <View style={styles.container}>
-                <Pressable onPress={handleRedirectToLoginScreen} style={styles.buttonContainer}>
+                <TouchableOpacity onPress={handleRedirectToLoginScreen} style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Go to Login page</Text>
-                </Pressable>
+                </TouchableOpacity>
 
-                <Pressable onPress={handleRedirectToOrderScreen} style={styles.buttonContainer}>
+                <TouchableOpacity onPress={handleRedirectToOrderScreen} style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Go to List Of Photos</Text>
-                </Pressable>
+                </TouchableOpacity>
 
-                <Pressable onPress={handleRedirectToAppWithModalScreen} style={styles.buttonContainer}>
-                    <Text style={styles.buttonText}>Go toApp With Modal</Text>
-                </Pressable>
-
-                <Pressable onPress={handleRedirectToCameraScreen} style={styles.buttonContainer}>
+                <TouchableOpacity onPress={handleRedirectToCameraScreen} style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Go Camera</Text>
-                </Pressable>
+                </TouchableOpacity>
             </View>
 
         </>
@@ -51,23 +42,23 @@ export default Menu;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#592d2d',
+        backgroundColor: colors.background,
         alignItems: 'center',
         justifyContent: 'center',
     },
-    menu_container: {
-        backgroundColor: "#6200ee",
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        borderRadius: 8,
-        minWidth: 100,
-    },
-    menu_text: {
-        color: Colors.darkWhite,
-        textAlign: "center",
-        fontWeight: "bold",
-        fontSize: 20,
-    },
+    // menu_container: {
+    //     backgroundColor: "#6200ee",
+    //     paddingVertical: 10,
+    //     paddingHorizontal: 10,
+    //     borderRadius: 8,
+    //     minWidth: 100,
+    // },
+    // menu_text: {
+    //     color: colors.darkWhite,
+    //     textAlign: "center",
+    //     fontWeight: "bold",
+    //     fontSize: 20,
+    // },
     buttonContainer: {
         elevation: 8,
         backgroundColor: "#6200ee",

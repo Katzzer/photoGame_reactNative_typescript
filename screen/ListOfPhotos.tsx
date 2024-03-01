@@ -1,7 +1,7 @@
 import {ScrollView, Text, Image, StyleSheet, Pressable, Modal, View, TouchableHighlight} from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import TokenContext from "../context/token-context";
-import {BACKEND_URL} from "../tools/constants";
+import {BACKEND_URL} from "../constants/constants";
 import {Photo} from "../constants/types";
 import axios, {AxiosRequestConfig} from "axios";
 import base64 from 'base-64';

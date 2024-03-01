@@ -1,11 +1,11 @@
-import {Button, Text} from "react-native";
+import {Button, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useContext, useEffect, useState} from "react";
 import {AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserSession} from "amazon-cognito-identity-js";
 import UserPool from "../security/UserPool";
 import jwtDecode from "jwt-decode";
 import LabelAndInput from "./components/LabelAndInput";
 import axios from "axios";
-import {BACKEND_URL, SCREEN} from "../tools/constants";
+import {BACKEND_URL, colors, SCREEN} from "../constants/constants";
 import {ActionType, State} from "../model/token.model";
 import TokenContext from "../context/token-context";
 import {useNavigation} from "@react-navigation/native";
@@ -34,6 +34,7 @@ function Login()  {
     const [loggedUserUsername, setLoggedUserUsername] = useState("");
     const [messageFromBackend, setMessageFromBackend] = useState("Press button"); // TODO: only for testing:
     const [idToken, setIdToken] = useState("");
+    const [isLoginVisible, setIsLoginVisible] = useState(true);
     const [state, dispatch] = useContext(TokenContext);
     const navigation = useNavigation();
 
@@ -220,49 +221,73 @@ function Login()  {
         setMessageFromBackend(response.data);
     }
 
+    function toggleLoginAndSignUp() {
+        setIsLoginVisible(!isLoginVisible);
+    }
+
     return (
-        <>
-            {!isUserLogged &&
-                (<>
-                    <LabelAndInput
-                        label={"Username"}
-                        textInputValue={username}
-                        onChange={setUsername}
-                    />
+        <View style={styles.container}>
+            {!isUserLogged && !isLoginVisible &&
+                <>
+                    <View style={styles.formWrapper}>
+                        <LabelAndInput
+                            label={"Username"}
+                            textInputValue={username}
+                            onChange={setUsername}
+                        />
 
-                    <LabelAndInput
-                        label={"Email"}
-                        textInputValue={email}
-                        onChange={setEmail}
-                    />
+                        <LabelAndInput
+                            label={"Email"}
+                            textInputValue={email}
+                            onChange={setEmail}
+                        />
 
-                    <LabelAndInput
-                        label={"Password"}
-                        textInputValue={password}
-                        onChange={setPassword}
-                        isPassword={true}
-                    />
+                        <LabelAndInput
+                            label={"Password"}
+                            textInputValue={password}
+                            onChange={setPassword}
+                            isPassword={true}
+                        />
 
-                    <Button title={"Sing in"} onPress={onSubmit}/>
+                        <TouchableOpacity onPress={onSubmit} style={styles.button}>
+                            <Text style={styles.buttonText}>Sign In</Text>
+                        </TouchableOpacity>
 
-                    <LabelAndInput
-                        label={"Email"}
-                        textInputValue={email}
-                        onChange={setEmail}
-                    />
+                        <TouchableOpacity onPress={toggleLoginAndSignUp} style={styles.buttonReversed}>
+                            <Text style={styles.buttonTextReversed}>Already member? Log In!</Text>
+                        </TouchableOpacity>
 
-                    <LabelAndInput
-                        label={"Password"}
-                        textInputValue={password}
-                        onChange={setPassword}
-                        isPassword={true}
-                    />
+                    </View>
+                </>
+            }
+            {!isUserLogged && isLoginVisible &&
+                <>
+                    <View style={styles.formWrapper}>
+                        <LabelAndInput
+                            label={"Email"}
+                            textInputValue={email}
+                            onChange={setEmail}
+                        />
 
-                    <Button title={"Log in"} onPress={onLogin}/>
-                </>)
+                        <LabelAndInput
+                            label={"Password"}
+                            textInputValue={password}
+                            onChange={setPassword}
+                            isPassword={true}
+                        />
+                    </View>
+
+                    <TouchableOpacity onPress={onLogin} style={styles.button}>
+                        <Text style={styles.buttonText}>Log In</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={toggleLoginAndSignUp} style={styles.buttonReversed}>
+                        <Text style={styles.buttonTextReversed}>Not a member? Sign Up!</Text>
+                    </TouchableOpacity>
+                </>
             }
 
-            {isUserLogged && (
+            {isUserLogged &&
                 <>
                     <Text>Welcome {loggedUserUsername}</Text>
                     <Button title={"Logout"} onPress={logout}/>
@@ -270,14 +295,57 @@ function Login()  {
                     <Button title={"Send testing request to backend"} onPress={sendTestingRequestToBackend}/>
                     <Text>{messageFromBackend}</Text>
                 </>
-            )
-
             }
 
-            <Text>is user Logged: {String(state.isUserLogged)}</Text>
-
-        </>
+        </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.background
+    },
+    formWrapper: {
+        flex: 0,
+        width: '90%',
+        height: 'auto',
+        alignSelf: 'center'
+    },
+    button: {
+        backgroundColor: colors.lightBlue,
+        borderRadius: 40,
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        width: '90%',
+        marginTop: 15
+    },
+    buttonText: {
+        color: colors.background,
+        fontSize: 18,
+        fontWeight: "bold",
+    },
+    buttonReversed: {
+        backgroundColor: colors.background,
+        borderRadius: 40,
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        width: '90%',
+        marginTop: 15,
+        borderColor: colors.lightBlue,
+    },
+    buttonTextReversed: {
+        color: colors.lightBlue,
+        fontSize: 18,
+        fontWeight: "bold",
+    }
+});
+
 
 export default Login;

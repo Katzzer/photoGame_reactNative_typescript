@@ -1,8 +1,7 @@
 import React, {useContext} from 'react';
 import {Pressable, StyleSheet, Text, View} from "react-native";
-import Colors from "../../constants/colors";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-import {RootStackParamList, SCREEN} from "../../tools/constants";
+import {colors, RootStackParamList, SCREEN} from "../../constants/constants";
 import TokenContext from "../../context/token-context";
 
 interface MenuButtonProps {
@@ -47,7 +46,7 @@ const styles = StyleSheet.create({
         minWidth: 100,
     },
     menu_text: {
-        color: Colors.darkWhite,
+        color: colors.darkWhite,
         textAlign: "center",
         fontWeight: "bold",
         fontSize: 20,

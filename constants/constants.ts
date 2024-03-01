@@ -26,3 +26,13 @@ export interface RootStackParamList {
     [SCREEN.MENU]: undefined; // No expected parameters for Menu screen
     [SCREEN.CAPTURE_PHOTO]: undefined; // No expected parameters for CapturePhoto screen
 }
+
+export const colors = {
+    darkGrey: "#2F2E30",
+    lightGrey: "#616161",
+    darkWhite: "#ddd",
+    grey: "grey",
+    red: "#801d1d",
+    background: "#1f293a",
+    lightBlue: "#0ef"
+}
