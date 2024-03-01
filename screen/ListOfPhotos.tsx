@@ -92,7 +92,7 @@ function ListOfPhotos() {
 
             if (imageId) {
                 const startTime = Date.now();
-                const response = await axios.get(`${BACKEND_URL.BY_IP}/photo/${imageId}`, config);
+                const response = await axios.get(`${BACKEND_URL.BY_IP}/photo-for-mobile/${imageId}`, config);
                 const endTime = Date.now();
                 const elapsedTime = endTime - startTime; // Time in milliseconds
 
