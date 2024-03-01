@@ -1,7 +1,7 @@
 import {ScrollView, Text, Image, StyleSheet, Pressable, Modal, View, TouchableHighlight} from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import TokenContext from "../context/token-context";
-import {BACKEND_URL} from "../constants/constants";
+import {BACKEND_URL, colors} from "../constants/constants";
 import {Photo} from "../constants/types";
 import axios, {AxiosRequestConfig} from "axios";
 import base64 from 'base-64';
@@ -114,7 +114,7 @@ function ListOfPhotos() {
     }
 
     return (
-        <ScrollView contentContainerStyle={{padding: 10}}>
+        <ScrollView contentContainerStyle={{padding: 10}} style={styles.container}>
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -122,12 +122,12 @@ function ListOfPhotos() {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Hello from Modal!</Text>
 
                         <View style={{ width: '100%', height: '90%', marginBottom: 10, backgroundColor: "black" }}>
                             <Image
                                 style={{ width: '100%', height: '100%' }}
                                 source={{ uri: image || 'placeholder_image_url'}}
+                                resizeMode="contain"
                             />
                         </View>
 
@@ -143,21 +143,15 @@ function ListOfPhotos() {
                 </View>
             </Modal>
 
-            {/*<TouchableHighlight*/}
-            {/*    style={styles.openButton}*/}
-            {/*    onPress={() => {*/}
-            {/*        setIsModalWindowForImageOpen(true);*/}
-            {/*    }}*/}
-            {/*>*/}
-            {/*    <Text style={styles.textStyle}>Show Modal</Text>*/}
-            {/*</TouchableHighlight>*/}
-
             {listOfPhotosWithImage.map((photo) => (
                 <Pressable key={photo.id} onPress={() => showModalWindowWithImage(photo.id)} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                    <Image
-                        style={{ width: '100%', height: 200, marginBottom: 10 }}
-                        source={{ uri: photo.image }}
-                    />
+                    <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#626262', height: 200, marginBottom: 10 }}>
+                        <Image
+                            source={{ uri: photo.image }}
+                            resizeMode="contain"
+                            style={{ width: '100%', height: '100%' }}
+                        />
+                    </View>
                 </Pressable>
             ))}
         </ScrollView>
@@ -169,9 +163,7 @@ export default ListOfPhotos;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#592d2d',
-        alignItems: 'center',
-        justifyContent: 'center',
+        backgroundColor: colors.background,
     },
     menu_text: {
         color: "black",
@@ -185,12 +177,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 22,
         width: '100%',
-        height: '100%', // This sets 100% height
+        height: '100%'
     },
     modalView: {
         margin: 20,
         backgroundColor: "white",
-        borderRadius: 20,
+        // borderRadius: 20,
         padding: 35,
         alignItems: "center",
         shadowColor: "#000",
