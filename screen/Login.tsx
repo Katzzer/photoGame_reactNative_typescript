@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
         borderColor: colors.lightBlue,
     },
     buttonTextReversed: {
-        color: colors.lightBlue,
+        color: colors.grey,
         fontSize: 18,
         fontWeight: "bold",
     }
