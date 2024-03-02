@@ -29,7 +29,7 @@ export interface RootStackParamList {
 
 export const colors = {
     darkGrey: "#2F2E30",
-    lightGrey: "#616161",
+    lightGrey: "#fff",
     darkWhite: "#ddd",
     grey: "grey",
     red: "#801d1d",

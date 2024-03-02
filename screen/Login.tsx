@@ -231,19 +231,19 @@ function Login()  {
                 <>
                     <View style={styles.formWrapper}>
                         <LabelAndInput
-                            label={"Username"}
+                            labelName={"Username"}
                             textInputValue={username}
                             onChange={setUsername}
                         />
 
                         <LabelAndInput
-                            label={"Email"}
+                            labelName={"Email"}
                             textInputValue={email}
                             onChange={setEmail}
                         />
 
                         <LabelAndInput
-                            label={"Password"}
+                            labelName={"Password"}
                             textInputValue={password}
                             onChange={setPassword}
                             isPassword={true}
@@ -264,13 +264,13 @@ function Login()  {
                 <>
                     <View style={styles.formWrapper}>
                         <LabelAndInput
-                            label={"Email"}
+                            labelName={"Email"}
                             textInputValue={email}
                             onChange={setEmail}
                         />
 
                         <LabelAndInput
-                            label={"Password"}
+                            labelName={"Password"}
                             textInputValue={password}
                             onChange={setPassword}
                             isPassword={true}
