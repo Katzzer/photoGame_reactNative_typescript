@@ -3,13 +3,13 @@ import {Animated, StyleSheet, TextInput, View} from "react-native";
 import {colors} from "../../constants/constants";
 
 interface propsType {
-    label: string,
+    labelName: string,
     textInputValue: string,
     onChange: Dispatch<string>,
     isPassword?: boolean
 }
 
-function LabelAndInput({label, textInputValue, onChange, isPassword=false}:propsType) {
+function LabelAndInput({labelName, textInputValue, onChange, isPassword=false}:propsType) {
 
     const [isFocused, setIsFocused] = useState(false);
 
@@ -53,10 +53,11 @@ function LabelAndInput({label, textInputValue, onChange, isPassword=false}:props
                     {
                         transform: [{translateY: positionAnim}, {translateX: marginAnim}],
                         fontSize: fontSizeAnim,
+                        color: isFocused || textInputValue ? colors.lightBlue : colors.lightGrey,
                     },
                 ]}
             >
-                {label}
+                {labelName}
             </Animated.Text>
 
         </View>
@@ -91,6 +92,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 4
     },
     darkBorder: {
-        borderColor: colors.darkBlue
+        borderColor: colors.darkBlue,
     }
 });
