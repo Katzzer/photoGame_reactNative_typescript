@@ -6,10 +6,13 @@
 - Enable Developer mode in Android (how to do it you can find with Google)
 - Go to developer menu and enable debugging mode
 - [Allow port 19000 on Windows or Linux](https://stackoverflow.com/questions/43593042/network-response-time-out-error-create-react-native-app-expo)
----
+
+## How to build app and expo server
+- In command line type: `eas build -p android --profile production`
 
 ## Run, develop using docker container:
 - One downside is that you must enter your host IP manually and PORT into expo go app instead of QR
+
 ### Build
 - **It can take about 1 minute, because it's fetching dependencies**
 - ```sh
