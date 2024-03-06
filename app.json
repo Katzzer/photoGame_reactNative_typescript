@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "photoGame_mobile",
+    "name": "Photo Game",
     "slug": "photoGame_mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,17 +18,27 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "permissions": ["CAMERA"]
+      "permissions": [
+        "CAMERA"
+      ],
+      "package": "com.pavelkostal.photoGame"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "364341a9-2e8e-4020-ae8b-db0c9f09b76a"
+      }
     }
   }
 }
