@@ -2,7 +2,7 @@ import {Button, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useContext, useEffect, useState} from "react";
 import {AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserSession} from "amazon-cognito-identity-js";
 import UserPool from "../security/UserPool";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import LabelAndInput from "./components/LabelAndInput";
 import axios from "axios";
 import {BACKEND_URL, colors, SCREEN} from "../constants/constants";

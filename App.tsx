@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Login from "./screen/Login";
 import Menu from "./screen/Menu";
 import ListOfPhotos from "./screen/ListOfPhotos";
-import {colors, SCREEN, TITLE} from "./constants/constants";
+import {colors, RootStackParamList, SCREEN, TITLE} from "./constants/constants";
 import TokenContext from "./context/token-context";
 import {useReducer} from "react";
 import {tokenReducer} from "./reducer/tokenReducer";
@@ -12,7 +12,7 @@ import {initialState} from "./model/token.model";
 import CapturePhoto from "./screen/CapturePhoto";
 import MenuButton from "./screen/components/MenuButton";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
 

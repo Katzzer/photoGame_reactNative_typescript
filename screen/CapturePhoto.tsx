@@ -1,32 +1,33 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Text, View, TouchableOpacity, Image } from 'react-native';
-import { Camera, CameraType } from "expo-camera";
+import { CameraView, useCameraPermissions } from "expo-camera";
 
 function CapturePhoto() {
-    const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-    const cameraRef = useRef<Camera | null>(null);
+    const [permission, requestPermission] = useCameraPermissions();
+    const cameraRef = useRef<CameraView | null>(null);
     const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
-
-    useEffect(() => {
-        (async () => {
-            const { status } = await Camera.requestCameraPermissionsAsync();
-            setHasPermission(status === 'granted');
-        })();
-    }, []);
 
     const takePicture = async () => {
         if (cameraRef.current) {
             let photo = await cameraRef.current.takePictureAsync();
-            const uri = photo.uri; // Get the photo URI
-            setCapturedPhoto(uri);
+            if (photo) {
+                setCapturedPhoto(photo.uri);
+            }
         }
     };
 
-    if (hasPermission === null) {
+    if (!permission) {
         return <View />;
     }
-    if (!hasPermission) {
-        return <Text>No access to camera</Text>;
+    if (!permission.granted) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text>No access to camera</Text>
+                <TouchableOpacity onPress={requestPermission}>
+                    <Text>Grant permission</Text>
+                </TouchableOpacity>
+            </View>
+        );
     }
 
     return (
@@ -34,7 +35,7 @@ function CapturePhoto() {
             {capturedPhoto ? (
                 <Image source={{ uri: capturedPhoto }} style={{ flex: 1 }} />
             ) : (
-                <Camera style={{ flex: 1 }} type={Camera.Constants.Type as CameraType} ref={cameraRef}>
+                <CameraView style={{ flex: 1 }} facing="back" ref={cameraRef}>
                     <View
                         style={{
                             flex: 1,
@@ -51,7 +52,7 @@ function CapturePhoto() {
                             <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}> Capture </Text>
                         </TouchableOpacity>
                     </View>
-                </Camera>
+                </CameraView>
             )}
         </View>
     );
