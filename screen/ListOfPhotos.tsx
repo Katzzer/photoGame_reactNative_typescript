@@ -1,7 +1,7 @@
 import {ScrollView, Text, Image, StyleSheet, Pressable, Modal, View, TouchableHighlight} from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import TokenContext from "../context/token-context";
-import {BACKEND_URL, colors} from "../constants/constants";
+import {ACTIVE_BACKEND_URL, colors} from "../constants/constants";
 import {Photo} from "../constants/types";
 import axios, {AxiosRequestConfig} from "axios";
 import base64 from 'base-64';
@@ -39,7 +39,7 @@ function ListOfPhotos() {
             },
         };
 
-        const response = await axios.get(`${BACKEND_URL.BY_IP}/photo/thumbnail/${photo.id}`, config);
+        const response = await axios.get(`${ACTIVE_BACKEND_URL}/photo/thumbnail/${photo.id}`, config);
         if (response.data) {
 
             // Use base64.encode() to convert array buffer to base64
@@ -61,8 +61,8 @@ function ListOfPhotos() {
     }
 
     function getListOfPhotos() {
-        // const url = params.country ? `${BACKEND_URL.BY_IP}/find-photos-by-location/${params.country}/${params.city}` : `${BACKEND_URL.BY_IP}/photos/all-photos-for-current-user`
-        const url = `${BACKEND_URL.BY_IP}/photos/all-photos-for-current-user`;
+        // const url = params.country ? `${ACTIVE_BACKEND_URL}/find-photos-by-location/${params.country}/${params.city}` : `${ACTIVE_BACKEND_URL}/photos/all-photos-for-current-user`
+        const url = `${ACTIVE_BACKEND_URL}/photos/all-photos-for-current-user`;
 
         setListOfPhotos([]);
         setListOfPhotosWithImage([]);
@@ -92,7 +92,7 @@ function ListOfPhotos() {
 
             if (imageId) {
                 const startTime = Date.now();
-                const response = await axios.get(`${BACKEND_URL.BY_IP}/photo-for-mobile/${imageId}`, config);
+                const response = await axios.get(`${ACTIVE_BACKEND_URL}/photo-for-mobile/${imageId}`, config);
                 const endTime = Date.now();
                 const elapsedTime = endTime - startTime; // Time in milliseconds
 

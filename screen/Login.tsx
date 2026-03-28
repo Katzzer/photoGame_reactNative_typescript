@@ -5,7 +5,7 @@ import UserPool from "../security/UserPool";
 import { jwtDecode } from "jwt-decode";
 import LabelAndInput from "./components/LabelAndInput";
 import axios from "axios";
-import {BACKEND_URL, colors, SCREEN} from "../constants/constants";
+import {ACTIVE_BACKEND_URL, colors, SCREEN} from "../constants/constants";
 import {ActionType, State} from "../model/token.model";
 import TokenContext from "../context/token-context";
 import {useNavigation} from "@react-navigation/native";
@@ -214,8 +214,8 @@ function Login()  {
 
         console.log("idToken = " + idToken);
         console.log("-------------------")
-        console.log("BACKEND_URL = " + BACKEND_URL.BY_IP);
-        const response= await axios.get(BACKEND_URL.BY_IP, config);
+        console.log("BACKEND_URL = " + ACTIVE_BACKEND_URL);
+        const response= await axios.get(ACTIVE_BACKEND_URL, config);
         console.log(response);
         console.log(response.data);
         setMessageFromBackend(response.data);

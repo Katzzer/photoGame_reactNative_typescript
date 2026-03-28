@@ -4,6 +4,8 @@ export enum BACKEND_URL {
     BY_IP_AT_NOVA_CEREKEV = "http://192.168.0.107:8080/api/v1/data"
 }
 
+export const ACTIVE_BACKEND_URL = BACKEND_URL.LOCALHOST;
+
 export enum SCREEN {
     LOGIN = "Login",
     LIST_OF_PHOTOS = "ListOfPhotos",
