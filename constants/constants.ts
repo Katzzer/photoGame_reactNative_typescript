@@ -30,12 +30,19 @@ export interface RootStackParamList {
 }
 
 export const colors = {
+    primary: "#6200ee",
+    secondary: "#03dac6",
+    background: "#121212",
+    surface: "#1e1e1e",
+    error: "#cf6679",
+    onPrimary: "#ffffff",
+    onSecondary: "#000000",
+    onBackground: "#ffffff",
+    onSurface: "#ffffff",
+    onError: "#000000",
+    grey: "#757575",
+    lightGrey: "#b0b0b0",
     darkGrey: "#2F2E30",
-    lightGrey: "#fff",
     darkWhite: "#ddd",
-    grey: "grey",
-    red: "#801d1d",
-    background: "#1f293a",
     lightBlue: "#0ef",
-    darkBlue: "#2c4766",
 }

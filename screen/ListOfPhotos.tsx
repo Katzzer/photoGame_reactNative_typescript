@@ -114,43 +114,54 @@ function ListOfPhotos() {
     }
 
     return (
-        <ScrollView contentContainerStyle={{padding: 10}} style={styles.container}>
+        <ScrollView contentContainerStyle={{padding: 15}} style={styles.container}>
             <Modal
-                animationType="fade"
+                animationType="slide"
                 transparent={true}
                 visible={isModalWindowForImageOpen}
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
+                        <View style={styles.modalHeader}>
+                             <Text style={styles.modalTitle}>Detail Fotografie</Text>
+                        </View>
 
-                        <View style={{ width: '100%', height: '90%', marginBottom: 10, backgroundColor: "black" }}>
+                        <View style={styles.modalImageContainer}>
                             <Image
-                                style={{ width: '100%', height: '100%' }}
+                                style={styles.fullImage}
                                 source={{ uri: image || 'placeholder_image_url'}}
                                 resizeMode="contain"
                             />
                         </View>
 
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                        <TouchableOpacity
+                            style={styles.closeButton}
                             onPress={() => {
                                 setIsModalWindowForImageOpen(!isModalWindowForImageOpen);
                             }}
                         >
-                            <Text style={styles.textStyle}>Close Modal</Text>
-                        </TouchableHighlight>
+                            <Text style={styles.textStyle}>ZAVŘÍT</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
 
             {listOfPhotosWithImage.map((photo) => (
-                <Pressable key={photo.id} onPress={() => showModalWindowWithImage(photo.id)} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}>
-                    <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#626262', height: 200, marginBottom: 10 }}>
-                        <Image
-                            source={{ uri: photo.image }}
-                            resizeMode="contain"
-                            style={{ width: '100%', height: '100%' }}
-                        />
+                <Pressable 
+                    key={photo.id} 
+                    onPress={() => showModalWindowWithImage(photo.id)}
+                    style={({ pressed }) => [
+                        styles.photoCard,
+                        { opacity: pressed ? 0.7 : 1 }
+                    ]}
+                >
+                    <Image
+                        source={{ uri: photo.image }}
+                        resizeMode="cover"
+                        style={styles.thumbnail}
+                    />
+                    <View style={styles.photoInfo}>
+                        <Text style={styles.photoId}>ID: {photo.id}</Text>
                     </View>
                 </Pressable>
             ))}
@@ -165,52 +176,81 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.background,
     },
-    menu_text: {
-        color: "black",
-        textAlign: "center",
-        fontWeight: "bold",
-        fontSize: 40,
-    },
     centeredView: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22,
-        width: '100%',
-        height: '100%'
+        backgroundColor: 'rgba(0,0,0,0.8)',
     },
     modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        // borderRadius: 20,
-        padding: 35,
+        width: '90%',
+        height: '80%',
+        backgroundColor: colors.surface,
+        borderRadius: 15,
+        padding: 20,
         alignItems: "center",
         shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.34,
+        shadowRadius: 6.27,
+        elevation: 10,
+    },
+    modalHeader: {
         width: '100%',
-        height: '100%', // This sets 100% height
-    },
-    openButton: {
-        backgroundColor: "#F194FF",
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
-    },
-
-
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
         marginBottom: 15,
-        textAlign: "center"
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: colors.onSurface,
+        textAlign: 'center',
+    },
+    modalImageContainer: {
+        flex: 1,
+        width: '100%',
+        backgroundColor: '#000',
+        borderRadius: 10,
+        overflow: 'hidden',
+        marginBottom: 20,
+    },
+    fullImage: {
+        width: '100%',
+        height: '100%',
+    },
+    closeButton: {
+        backgroundColor: colors.primary,
+        borderRadius: 8,
+        paddingVertical: 12,
+        paddingHorizontal: 30,
+        elevation: 2,
+    },
+    textStyle: {
+        color: colors.onPrimary,
+        fontWeight: "bold",
+        textAlign: "center",
+        textTransform: 'uppercase',
+    },
+    photoCard: {
+        backgroundColor: colors.surface,
+        borderRadius: 12,
+        marginBottom: 20,
+        overflow: 'hidden',
+        elevation: 3,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+    },
+    thumbnail: {
+        width: '100%',
+        height: 200,
+    },
+    photoInfo: {
+        padding: 10,
+        backgroundColor: colors.surface,
+    },
+    photoId: {
+        color: colors.lightGrey,
+        fontSize: 12,
     }
 });

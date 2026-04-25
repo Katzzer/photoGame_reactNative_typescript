@@ -288,13 +288,19 @@ function Login()  {
             }
 
             {isUserLogged &&
-                <>
-                    <Text>Welcome {loggedUserUsername}</Text>
-                    <Button title={"Logout"} onPress={logout}/>
+                <View style={styles.loggedInContainer}>
+                    <Text style={styles.welcomeText}>Welcome {loggedUserUsername}</Text>
+                    
+                    <TouchableOpacity onPress={logout} style={[styles.button, {backgroundColor: colors.error}]}>
+                        <Text style={styles.buttonText}>Logout</Text>
+                    </TouchableOpacity>
 
-                    <Button title={"Send testing request to backend"} onPress={sendTestingRequestToBackend}/>
-                    <Text>{messageFromBackend}</Text>
-                </>
+                    <TouchableOpacity onPress={sendTestingRequestToBackend} style={styles.button}>
+                        <Text style={styles.buttonText}>Send testing request to backend</Text>
+                    </TouchableOpacity>
+                    
+                    <Text style={styles.backendMessage}>{messageFromBackend}</Text>
+                </View>
             }
 
         </View>
@@ -306,44 +312,63 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.background
+        backgroundColor: colors.background,
+        padding: 20,
     },
     formWrapper: {
-        flex: 0,
-        width: '90%',
-        height: 'auto',
-        alignSelf: 'center'
+        width: '100%',
+        maxWidth: 400,
     },
     button: {
-        backgroundColor: colors.lightBlue,
-        borderRadius: 40,
-        height: 45,
+        backgroundColor: colors.primary,
+        borderRadius: 8,
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 10,
-        width: '90%',
-        marginTop: 15
+        width: '100%',
+        marginTop: 15,
+        elevation: 2,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
     },
     buttonText: {
-        color: colors.background,
-        fontSize: 18,
+        color: colors.onPrimary,
+        fontSize: 16,
         fontWeight: "bold",
+        textTransform: 'uppercase',
     },
     buttonReversed: {
-        backgroundColor: colors.background,
-        borderRadius: 40,
-        height: 45,
+        backgroundColor: 'transparent',
+        borderRadius: 8,
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 10,
-        width: '90%',
+        width: '100%',
         marginTop: 15,
-        borderColor: colors.lightBlue,
+        borderWidth: 1,
+        borderColor: colors.primary,
     },
     buttonTextReversed: {
-        color: colors.grey,
-        fontSize: 18,
+        color: colors.primary,
+        fontSize: 16,
         fontWeight: "bold",
+    },
+    loggedInContainer: {
+        alignItems: 'center',
+        width: '100%',
+    },
+    welcomeText: {
+        fontSize: 24,
+        color: colors.onBackground,
+        marginBottom: 30,
+        fontWeight: 'bold',
+    },
+    backendMessage: {
+        marginTop: 20,
+        color: colors.lightGrey,
+        fontStyle: 'italic',
     }
 });
 

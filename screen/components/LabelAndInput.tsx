@@ -53,7 +53,7 @@ function LabelAndInput({labelName, textInputValue, onChange, isPassword=false}:p
                     {
                         transform: [{translateY: positionAnim}, {translateX: marginAnim}],
                         fontSize: fontSizeAnim,
-                        color: isFocused || textInputValue ? colors.lightBlue : colors.lightGrey,
+                        color: isFocused || textInputValue ? colors.primary : colors.lightGrey,
                     },
                 ]}
             >
@@ -73,25 +73,25 @@ const styles = StyleSheet.create({
     input: {
         width: '100%',
         height: 50,
-        backgroundColor: 'transparent',
-        borderColor: '#0ef',
-        borderWidth: 2,
-        borderRadius: 20,
-        fontSize: 20,
-        color: '#fff',
+        backgroundColor: colors.surface,
+        borderColor: colors.primary,
+        borderWidth: 1,
+        borderRadius: 8,
+        fontSize: 18,
+        color: colors.onSurface,
         paddingHorizontal: 20,
     },
     label: {
         position: 'absolute',
-        top: '-25%',
-        left: 0,
-        fontSize: 17,
-        color: '#0ef',
-        backgroundColor: '#1f293a',
-        marginHorizontal: 10,
-        paddingHorizontal: 4
+        top: -10,
+        left: 20,
+        fontSize: 14,
+        color: colors.primary,
+        backgroundColor: colors.background,
+        paddingHorizontal: 5,
+        zIndex: 1,
     },
     darkBorder: {
-        borderColor: colors.darkBlue,
+        borderColor: colors.lightGrey,
     }
 });

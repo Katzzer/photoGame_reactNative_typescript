@@ -18,70 +18,50 @@ export default function App() {
 
     const [state, dispatch] = useReducer(tokenReducer, initialState);
 
+    const screenOptions = ({navigation}: any) => ({
+        headerTintColor: colors.onSurface,
+        headerStyle: {
+            backgroundColor: colors.surface,
+        },
+        headerTitleStyle: {
+            fontWeight: 'bold' as 'bold',
+        },
+        headerHideBackButton: true,
+        headerRight: () =>
+            <MenuButton navigation={navigation}/>
+    });
+
   return (
       <TokenContext.Provider value={[state, dispatch]}>
         <StatusBar style={"light"}/>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={SCREEN.LOGIN}>
+          <Stack.Navigator 
+              initialRouteName={SCREEN.LOGIN}
+              screenOptions={screenOptions}
+          >
 
               <Stack.Screen
                   name={SCREEN.LOGIN}
                   component={Login}
-                  options={({navigation}) => ({
-                      title: TITLE.LOGIN_SCREEN,
-                      headerTintColor: colors.darkWhite,
-                      headerStyle: {
-                          backgroundColor: colors.darkGrey,
-                      },
-                      headerHideBackButton: true,
-                      headerRight: ({tintColor}) =>
-                          <MenuButton navigation={navigation}/>
-                  })}
+                  options={{ title: TITLE.LOGIN_SCREEN }}
               />
 
               <Stack.Screen
                   name={SCREEN.LIST_OF_PHOTOS}
                   component={ListOfPhotos}
-                  options={({navigation}) => ({
-                      title: TITLE.LIST_OF_PHOTOS,
-                      headerTintColor: colors.darkWhite,
-                      headerStyle: {
-                          backgroundColor: colors.darkGrey,
-                      },
-                      headerHideBackButton: true,
-                      headerRight: ({tintColor}) =>
-                          <MenuButton navigation={navigation}/>
-                  })}
+                  options={{ title: TITLE.LIST_OF_PHOTOS }}
               />
 
               <Stack.Screen
                   name={SCREEN.MENU}
                   component={Menu}
-                  options={({navigation}) => ({
-                      title: TITLE.MENU,
-                      headerTintColor: colors.darkWhite,
-                      headerStyle: {
-                          backgroundColor: colors.darkGrey,
-                      },
-                      headerHideBackButton: true,
-                      headerRight: ({tintColor}) =>
-                          <MenuButton navigation={navigation}/>
-                  })}
+                  options={{ title: TITLE.MENU }}
               />
 
               <Stack.Screen
                   name={SCREEN.CAPTURE_PHOTO}
                   component={CapturePhoto}
-                  options={({navigation}) => ({
-                      title: TITLE.CAPTURE_PHOTO,
-                      headerTintColor: colors.darkWhite,
-                      headerStyle: {
-                          backgroundColor: colors.darkGrey,
-                      },
-                      headerHideBackButton: true,
-                      headerRight: ({tintColor}) =>
-                          <MenuButton navigation={navigation}/>
-                  })}
+                  options={{ title: TITLE.CAPTURE_PHOTO }}
               />
 
           </Stack.Navigator>

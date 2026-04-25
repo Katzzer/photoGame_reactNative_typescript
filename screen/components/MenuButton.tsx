@@ -32,23 +32,18 @@ function MenuButton(props: MenuButtonProps) {
 export default MenuButton;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     menu_container: {
-        backgroundColor: "#6200ee",
-        paddingVertical: 10,
-        paddingHorizontal: 10,
-        borderRadius: 8,
-        minWidth: 100,
+        backgroundColor: colors.primary,
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 6,
+        elevation: 2,
     },
     menu_text: {
-        color: colors.darkWhite,
+        color: colors.onPrimary,
         textAlign: "center",
         fontWeight: "bold",
-        fontSize: 20,
+        fontSize: 14,
+        textTransform: 'uppercase',
     },
 });
