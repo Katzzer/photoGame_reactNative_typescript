@@ -1,4 +1,4 @@
-import {ScrollView, Text, Image, StyleSheet, Pressable, Modal, View, TouchableHighlight} from "react-native";
+import {ScrollView, Text, Image, StyleSheet, Pressable, Modal, View} from "react-native";
 import React, {useContext, useEffect, useState} from "react";
 import TokenContext from "../context/token-context";
 import {ACTIVE_BACKEND_URL, colors} from "../constants/constants";
@@ -134,14 +134,14 @@ function ListOfPhotos() {
                             />
                         </View>
 
-                        <TouchableOpacity
+                        <Pressable
                             style={styles.closeButton}
                             onPress={() => {
                                 setIsModalWindowForImageOpen(!isModalWindowForImageOpen);
                             }}
                         >
                             <Text style={styles.textStyle}>ZAVŘÍT</Text>
-                        </TouchableOpacity>
+                        </Pressable>
                     </View>
                 </View>
             </Modal>

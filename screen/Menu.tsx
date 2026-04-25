@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {StyleSheet, Text, Pressable, View} from "react-native";
 import {colors,  SCREEN} from "../constants/constants";
 import {useNavigation} from "@react-navigation/native";
 
@@ -20,17 +20,17 @@ function Menu() {
     return (
         <>
             <View style={styles.container}>
-                <TouchableOpacity onPress={handleRedirectToLoginScreen} style={styles.buttonContainer}>
+                <Pressable onPress={handleRedirectToLoginScreen} style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Go to Login page</Text>
-                </TouchableOpacity>
+                </Pressable>
 
-                <TouchableOpacity onPress={handleRedirectToOrderScreen} style={styles.buttonContainer}>
+                <Pressable onPress={handleRedirectToOrderScreen} style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Go to List Of Photos</Text>
-                </TouchableOpacity>
+                </Pressable>
 
-                <TouchableOpacity onPress={handleRedirectToCameraScreen} style={styles.buttonContainer}>
+                <Pressable onPress={handleRedirectToCameraScreen} style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Go Camera</Text>
-                </TouchableOpacity>
+                </Pressable>
             </View>
 
         </>

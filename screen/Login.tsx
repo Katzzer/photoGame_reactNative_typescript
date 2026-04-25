@@ -1,4 +1,4 @@
-import {Button, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Button, Pressable, StyleSheet, Text, View} from "react-native";
 import {useContext, useEffect, useState} from "react";
 import {AuthenticationDetails, CognitoUser, CognitoUserAttribute, CognitoUserSession} from "amazon-cognito-identity-js";
 import UserPool from "../security/UserPool";
@@ -35,6 +35,7 @@ function Login()  {
     const [messageFromBackend, setMessageFromBackend] = useState("Press button"); // TODO: only for testing:
     const [idToken, setIdToken] = useState("");
     const [isLoginVisible, setIsLoginVisible] = useState(true);
+    const [errorMessage, setErrorMessage] = useState("");
     const [state, dispatch] = useContext(TokenContext);
     const navigation = useNavigation();
 
@@ -145,9 +146,15 @@ function Login()  {
             }
         );
 
+        setErrorMessage("");
         UserPool.signUp(username, password, attrList, [], (err, data) => {
                 if (err) {
                     console.log(err)
+                    if (err.name === "UsernameExistsException") {
+                        setErrorMessage("Uživatel s tímto jménem již existuje.");
+                    } else {
+                        setErrorMessage(err.message);
+                    }
                 }
 
                 console.log(data)
@@ -166,6 +173,7 @@ function Login()  {
             Password: password
         });
 
+        setErrorMessage("");
         user.authenticateUser(authDetails, {
             onSuccess: (data) => {
                 // console.log("onSuccess: ", data);
@@ -186,6 +194,11 @@ function Login()  {
             onFailure: (err) => {
                 console.log("on Failure ", err);
                 setIsUserLoggedContext(false);
+                if (err.code === "NotAuthorizedException") {
+                    setErrorMessage("Špatné heslo nebo email.");
+                } else {
+                    setErrorMessage(err.message);
+                }
             },
             newPasswordRequired: (data) => {
                 console.log("newPasswordRequired: ", data);
@@ -249,13 +262,15 @@ function Login()  {
                             isPassword={true}
                         />
 
-                        <TouchableOpacity onPress={onSubmit} style={styles.button}>
+                        <Pressable onPress={onSubmit} style={styles.button}>
                             <Text style={styles.buttonText}>Sign In</Text>
-                        </TouchableOpacity>
+                        </Pressable>
 
-                        <TouchableOpacity onPress={toggleLoginAndSignUp} style={styles.buttonReversed}>
+                        {errorMessage !== "" && <Text style={styles.errorText}>{errorMessage}</Text>}
+
+                        <Pressable onPress={toggleLoginAndSignUp} style={styles.buttonReversed}>
                             <Text style={styles.buttonTextReversed}>Already member? Log In!</Text>
-                        </TouchableOpacity>
+                        </Pressable>
 
                     </View>
                 </>
@@ -277,13 +292,15 @@ function Login()  {
                         />
                     </View>
 
-                    <TouchableOpacity onPress={onLogin} style={styles.button}>
+                    <Pressable onPress={onLogin} style={styles.button}>
                         <Text style={styles.buttonText}>Log In</Text>
-                    </TouchableOpacity>
+                    </Pressable>
 
-                    <TouchableOpacity onPress={toggleLoginAndSignUp} style={styles.buttonReversed}>
+                    {errorMessage !== "" && <Text style={styles.errorText}>{errorMessage}</Text>}
+
+                    <Pressable onPress={toggleLoginAndSignUp} style={styles.buttonReversed}>
                         <Text style={styles.buttonTextReversed}>Not a member? Sign Up!</Text>
-                    </TouchableOpacity>
+                    </Pressable>
                 </>
             }
 
@@ -291,13 +308,13 @@ function Login()  {
                 <View style={styles.loggedInContainer}>
                     <Text style={styles.welcomeText}>Welcome {loggedUserUsername}</Text>
                     
-                    <TouchableOpacity onPress={logout} style={[styles.button, {backgroundColor: colors.error}]}>
+                    <Pressable onPress={logout} style={[styles.button, {backgroundColor: colors.error}]}>
                         <Text style={styles.buttonText}>Logout</Text>
-                    </TouchableOpacity>
+                    </Pressable>
 
-                    <TouchableOpacity onPress={sendTestingRequestToBackend} style={styles.button}>
+                    <Pressable onPress={sendTestingRequestToBackend} style={styles.button}>
                         <Text style={styles.buttonText}>Send testing request to backend</Text>
-                    </TouchableOpacity>
+                    </Pressable>
                     
                     <Text style={styles.backendMessage}>{messageFromBackend}</Text>
                 </View>
@@ -369,6 +386,11 @@ const styles = StyleSheet.create({
         marginTop: 20,
         color: colors.lightGrey,
         fontStyle: 'italic',
+    },
+    errorText: {
+        marginTop: 10,
+        color: colors.error,
+        textAlign: 'center',
     }
 });
 
